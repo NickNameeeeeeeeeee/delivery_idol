@@ -1,0 +1,24 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Poll {
+  id         String       @id
+  artistName String
+  question   String
+  options    PollOption[]
+}
+
+model PollOption {
+  id      Int    @id @default(autoincrement())
+  text    String
+  votes   Int    @default(0)
+  poll    Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId  String
+}
